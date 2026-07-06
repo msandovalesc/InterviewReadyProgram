@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 127.5">
+  <defs>
+    <style>
+      .d {
+        fill: #040fbc;
+      }
+
+      .e {
+        fill: #ff8d00;
+      }
+
+      .f {
+        fill: #2550f9;
+      }
+
+      .g {
+        fill: #0522de;
+      }
+
+      .h {
+        fill: #ffd200;
+      }
+
+      .i {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="c" data-name="Layer 1">
+    <g>
+      <rect class="g" y="67.5" width="60" height="7.5"/>
+      <g>
+        <rect class="e" x="7.5" y="60" width="45" height="7.5"/>
+        <rect class="e" y="52.5" width="60" height="7.5"/>
+        <rect class="e" y="45" width="60" height="7.5"/>
+        <rect class="e" x="7.5" y="37.5" width="52.5" height="7.5"/>
+        <rect class="e" x="15" y="30" width="45" height="7.5"/>
+        <rect class="e" x="22.5" y="22.5" width="30" height="7.5"/>
+        <rect class="e" x="15" y="15" width="30" height="7.5"/>
+        <rect class="e" x="7.5" y="7.5" width="22.5" height="7.5"/>
+        <rect class="e" x="7.5" width="7.5" height="7.5"/>
+      </g>
+      <rect class="g" x="7.5" y="75" width="45" height="7.5"/>
+      <rect class="g" x="15" y="82.5" width="30" height="7.5"/>
+      <rect class="g" x="15" y="120" width="30" height="7.5"/>
+      <rect class="g" x="22.5" y="90" width="15" height="30"/>
+      <g>
+        <rect class="h" x="15" y="52.5" width="30" height="7.5"/>
+        <rect class="h" x="22.5" y="45" width="30" height="7.5"/>
+        <rect class="h" x="30" y="37.5" width="15" height="7.5"/>
+        <rect class="h" x="30" y="30" width="7.5" height="7.5"/>
+      </g>
+      <rect class="f" y="67.5" width="22.5" height="7.5"/>
+      <rect class="f" x="7.5" y="75" width="7.5" height="7.5"/>
+      <rect class="i" x="22.5" y="52.5" width="15" height="7.5"/>
+      <rect class="i" x="30" y="45" width="7.5" height="7.5"/>
+      <rect class="f" x="15" y="82.5" width="7.5" height="7.5"/>
+      <rect class="f" x="15" y="120" width="7.5" height="7.5"/>
+      <rect class="f" x="22.5" y="90" width="7.5" height="30"/>
+      <rect class="d" x="37.5" y="67.5" width="22.5" height="7.5"/>
+      <rect class="d" x="45" y="75" width="7.5" height="7.5"/>
+      <rect class="d" x="37.5" y="120" width="7.5" height="7.5"/>
+      <rect class="d" x="37.5" y="82.5" width="7.5" height="7.5"/>
+      <rect class="d" x="30" y="90" width="7.5" height="30"/>
+    </g>
+  </g>
+</svg>
