@@ -107,6 +107,31 @@ export default function AdminScreen() {
     });
   }
 
+  async function deleteSession(s) {
+    const who = s.candidate_name || s.role || "this session";
+    const when = fmtDate(s.created_at);
+    if (!window.confirm(`Permanently delete the saved report for ${who} (${when})?\n\nThis cannot be undone.`)) {
+      return;
+    }
+    setBusyId(s.id);
+    setError("");
+    try {
+      const res = await fetch(`${API_BASE}/delete-session?id=${encodeURIComponent(s.id)}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || `Request failed (${res.status})`);
+      }
+      setSessions((prev) => prev.filter((x) => x.id !== s.id));
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusyId(null);
+    }
+  }
+
   function fmtDate(d) {
     return new Date(d).toLocaleString("en-US", {
       year: "numeric", month: "short", day: "numeric",
@@ -184,6 +209,7 @@ export default function AdminScreen() {
                 <th style={th}>Sentiment</th>
                 <th style={th}>Qs</th>
                 <th style={th}>Report</th>
+                <th style={th}></th>
               </tr>
             </thead>
             <tbody>
@@ -207,6 +233,16 @@ export default function AdminScreen() {
                       style={{ marginLeft: 6 }}
                     >
                       Download
+                    </button>
+                  </td>
+                  <td style={td}>
+                    <button
+                      className="btn"
+                      disabled={busyId === s.id}
+                      onClick={() => deleteSession(s)}
+                      style={{ color: "#dc2626", borderColor: "#fecaca" }}
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>
