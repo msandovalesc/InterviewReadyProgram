@@ -3,8 +3,9 @@ import { TIME_LIMIT } from "../constants";
 const RADIUS = 20;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
-export default function TimerRing({ timeLeft }) {
-  const offset = CIRCUMFERENCE * (1 - timeLeft / TIME_LIMIT);
+export default function TimerRing({ timeLeft, total }) {
+  const max = total || TIME_LIMIT;
+  const offset = CIRCUMFERENCE * (1 - timeLeft / max);
   let colorClass = "success";
   if (timeLeft <= 5) colorClass = "danger";
   else if (timeLeft <= 15) colorClass = "warning";

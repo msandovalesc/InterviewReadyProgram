@@ -5,6 +5,7 @@ import SetupScreen from "./components/SetupScreen";
 import WelcomeScreen from "./components/WelcomeScreen";
 import InterviewScreen from "./components/InterviewScreen";
 import SummaryScreen from "./components/SummaryScreen";
+import AdminScreen from "./components/AdminScreen";
 
 function parseConfigFromURL() {
   try {
@@ -21,6 +22,7 @@ function parseConfigFromURL() {
 }
 
 export default function App() {
+  const isAdmin = window.location.hash.startsWith("#/admin");
   const urlConfig = parseConfigFromURL();
   const isCandidate = !!urlConfig;
 
@@ -29,6 +31,7 @@ export default function App() {
   const [role, setRole] = useState(isCandidate ? (urlConfig.role || "") : "");
   const [candidateName, setCandidateName] = useState(isCandidate ? (urlConfig.candidateName || "") : "");
   const plEmail = isCandidate ? (urlConfig.plEmail || "") : "";
+  const timeLimit = isCandidate ? (urlConfig.timeLimit || null) : null;
   const [answers, setAnswers] = useState([]);
   const [modelStatus, setModelStatus] = useState("checking");
 
@@ -62,6 +65,14 @@ export default function App() {
     setScreen("interview");
   };
 
+  if (isAdmin) {
+    return (
+      <div className="app">
+        <AdminScreen />
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <ModelStatusBanner status={modelStatus} />
@@ -80,6 +91,7 @@ export default function App() {
           role={role}
           modelStatus={modelStatus}
           isCandidate={isCandidate}
+          timeLimit={timeLimit}
           onFinish={handleFinish}
         />
       )}

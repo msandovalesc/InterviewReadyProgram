@@ -29,9 +29,10 @@ function speakQuestion(text) {
   return utterance;
 }
 
-export default function InterviewScreen({ questions, role, modelStatus, isCandidate, onFinish }) {
+export default function InterviewScreen({ questions, role, modelStatus, isCandidate, timeLimit, onFinish }) {
+  const limit = timeLimit || TIME_LIMIT;
   const [idx, setIdx] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
+  const [timeLeft, setTimeLeft] = useState(limit);
   const [answers, setAnswers] = useState([]);
   const [timedOut, setTimedOut] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -130,7 +131,7 @@ export default function InterviewScreen({ questions, role, modelStatus, isCandid
     }
 
     setTimedOut(false);
-    setTimeLeft(TIME_LIMIT);
+    setTimeLeft(limit);
 
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
@@ -181,7 +182,7 @@ export default function InterviewScreen({ questions, role, modelStatus, isCandid
     clearCountdown();
     resetTranscript();
     setTimedOut(false);
-    setTimeLeft(TIME_LIMIT);
+    setTimeLeft(limit);
     setReRecordCount((prev) => prev + 1);
     startRec();
   };
@@ -202,14 +203,14 @@ export default function InterviewScreen({ questions, role, modelStatus, isCandid
 
     setIdx((prev) => prev + 1);
     resetTranscript();
-    setTimeLeft(TIME_LIMIT);
+    setTimeLeft(limit);
     setTimedOut(false);
     setReRecordCount(0);
   };
 
   const isLast = idx === questions.length - 1;
-  const showTimerBar = isRecording || timeLeft < TIME_LIMIT;
-  const timerBarWidth = ((TIME_LIMIT - timeLeft) / TIME_LIMIT) * 100;
+  const showTimerBar = isRecording || timeLeft < limit;
+  const timerBarWidth = ((limit - timeLeft) / limit) * 100;
   let timerBarColor = "var(--color-success)";
   if (timeLeft <= 5) timerBarColor = "var(--color-danger)";
   else if (timeLeft <= 15) timerBarColor = "var(--color-warning)";
@@ -277,7 +278,7 @@ export default function InterviewScreen({ questions, role, modelStatus, isCandid
         )}
 
         {isRecording && <Waveform />}
-        {isRecording && <TimerRing timeLeft={timeLeft} />}
+        {isRecording && <TimerRing timeLeft={timeLeft} total={limit} />}
       </div>
 
       {showTimerBar && (
