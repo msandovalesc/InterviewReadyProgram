@@ -619,8 +619,19 @@ ${printButton}
     window.open(url, "_blank");
   };
 
-  // Persist the finished session (metadata + full data + rendered report HTML)
-  // to the Netlify Functions backend, which stores it in Neon Postgres.
+  const handleDownloadReport = () => {
+    const name = (candidateName || role || "Candidate").replace(/\s+/g, "_");
+    const blob = new Blob([buildReportHTML(true)], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Interview_Report_${name}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
   // Auto-send: POST the report HTML to the Power Automate flow, which converts
   // it to a PDF and emails it to the People Lead.
   const sendHtmlToFlow = async () => {
@@ -918,7 +929,10 @@ ${printButton}
                   <span className="report-sent-icon">✓</span>
                   <div>
                     <strong>Results sent to your People Lead</strong>
-                    <p>Your PDF report has been delivered automatically. Thank you for completing the interview!</p>
+                    <p>Your report has been delivered automatically. You can also download a copy for your own records.</p>
+                    <div className="report-actions no-print" style={{ marginTop: 12 }}>
+                      <button className="btn btn-primary" onClick={handleDownloadReport}>Download report</button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -929,7 +943,8 @@ ${printButton}
                     <strong>Automatic send didn't go through</strong>
                     <p>Please send your report manually: open it, save as PDF, then email it to your People Lead.</p>
                     <div className="report-actions no-print" style={{ marginTop: 12 }}>
-                      <button className="btn btn-primary" onClick={handleOpenHTML}>Open &amp; Save as PDF</button>
+                      <button className="btn btn-primary" onClick={handleDownloadReport}>Download report</button>
+                      <button className="btn" onClick={handleOpenHTML}>Open &amp; Save as PDF</button>
                       <button className="btn btn-secondary" onClick={handleSendToPL}>Email to People Lead</button>
                     </div>
                   </div>
@@ -943,20 +958,23 @@ ${printButton}
                 <span className="report-sent-icon">✓</span>
                 <div>
                   <strong>Your interview is complete!</strong>
-                  <p>Follow these steps to submit your results:</p>
+                  <p>Download a copy for yourself, then send your results to your People Lead:</p>
                   <ol className="report-steps">
-                    <li><strong>Open &amp; save as PDF</strong> — Click the button below, then choose "Save as PDF" in the print dialog.</li>
-                    <li><strong>Email it to your People Lead</strong> — Click "Email to People Lead", then attach the PDF you just saved.</li>
+                    <li><strong>Download report</strong> saves the report to your device. (Or use "Open &amp; Save as PDF" to save it as a PDF.)</li>
+                    <li><strong>Email to People Lead</strong> opens an email. Attach the report you just saved.</li>
                   </ol>
                 </div>
               </div>
               <div className="report-actions no-print">
-                <button className="btn btn-primary" onClick={handleOpenHTML}>
-                  1. Open &amp; Save as PDF
+                <button className="btn btn-primary" onClick={handleDownloadReport}>
+                  Download report
+                </button>
+                <button className="btn" onClick={handleOpenHTML}>
+                  Open &amp; Save as PDF
                 </button>
                 {plEmail && (
                   <button className="btn btn-secondary" onClick={handleSendToPL}>
-                    2. Email to People Lead
+                    Email to People Lead
                   </button>
                 )}
               </div>
