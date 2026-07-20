@@ -16,13 +16,15 @@ function speakQuestion(text) {
   utterance.pitch = 1;
 
   const voices = window.speechSynthesis.getVoices();
-  const preferred = voices.find(
-    (v) => v.lang.startsWith("en") && v.name.toLowerCase().includes("female")
-  ) || voices.find(
-    (v) => v.lang.startsWith("en") && v.localService
-  ) || voices.find(
-    (v) => v.lang.startsWith("en")
-  );
+  const isUS = (v) => v.lang.replace("_", "-").toLowerCase() === "en-us";
+  const preferred =
+    // Well-known American voices first
+    voices.find((v) => isUS(v) && /google us english/i.test(v.name)) ||
+    voices.find((v) => isUS(v) && /(samantha|aria|jenny|michelle|ava|zira|allison|susan)/i.test(v.name)) ||
+    // Any US English voice
+    voices.find((v) => isUS(v)) ||
+    // Fallback: any English voice
+    voices.find((v) => v.lang.startsWith("en"));
   if (preferred) utterance.voice = preferred;
 
   window.speechSynthesis.speak(utterance);
