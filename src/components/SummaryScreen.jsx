@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { evaluateAnswer } from "../utils/evaluateAnswer";
 import { getCriteriaForQuestion } from "../utils/evaluationCriteria";
 import { scoreColor } from "../utils/scoreColor";
-import { FLOW_URL, API_BASE } from "../constants";
+import { FLOW_URL } from "../constants";
 
 function sentimentIcon(s) {
   if (s === "Positive") return { emoji: "😊", cls: "sentiment-positive" };
@@ -30,7 +30,6 @@ export default function SummaryScreen({
   const [copied, setCopied] = useState(false);
   // "idle" | "sending" | "sent" | "error"
   const [sendStatus, setSendStatus] = useState("idle");
-  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -78,15 +77,6 @@ export default function SummaryScreen({
       sendHtmlToFlow();
     }
   }, [isDone, isCandidate, emailSent, plEmail]);
-
-  // Persist the completed session to the backend so the report survives even
-  // if the candidate closes their tab. Fire-and-forget: a failure here must
-  // never block the candidate's on-screen report.
-  useEffect(() => {
-    if (!isDone || saved) return;
-    setSaved(true);
-    saveSession();
-  }, [isDone, saved]);
 
   const validScores = evaluations.filter((ev) => !ev.error && ev.score);
   const avg =
@@ -631,28 +621,6 @@ ${printButton}
 
   // Persist the finished session (metadata + full data + rendered report HTML)
   // to the Netlify Functions backend, which stores it in Neon Postgres.
-  const saveSession = async () => {
-    try {
-      await fetch(`${API_BASE}/save-session`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          candidateName: candidateName || "",
-          role: role || "Software Engineer",
-          plEmail: plEmail || "",
-          average: avg,
-          fluidity: avgFluidity,
-          sentiment: overallSentiment,
-          questionCount: questions.length,
-          data: { answers, evaluations },
-          reportHtml: buildReportHTML(false),
-        }),
-      });
-    } catch (err) {
-      console.error("Session save failed:", err);
-    }
-  };
-
   // Auto-send: POST the report HTML to the Power Automate flow, which converts
   // it to a PDF and emails it to the People Lead.
   const sendHtmlToFlow = async () => {
