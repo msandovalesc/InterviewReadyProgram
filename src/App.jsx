@@ -5,7 +5,6 @@ import SetupScreen from "./components/SetupScreen";
 import WelcomeScreen from "./components/WelcomeScreen";
 import InterviewScreen from "./components/InterviewScreen";
 import SummaryScreen from "./components/SummaryScreen";
-import AdminScreen from "./components/AdminScreen";
 
 function parseConfigFromURL() {
   try {
@@ -22,7 +21,6 @@ function parseConfigFromURL() {
 }
 
 export default function App() {
-  const isAdmin = window.location.hash.startsWith("#/admin");
   const urlConfig = parseConfigFromURL();
   const isCandidate = !!urlConfig;
 
@@ -65,14 +63,6 @@ export default function App() {
     setScreen("interview");
   };
 
-  if (isAdmin) {
-    return (
-      <div className="app">
-        <AdminScreen />
-      </div>
-    );
-  }
-
   return (
     <div className="app">
       <ModelStatusBanner status={modelStatus} />
@@ -82,6 +72,7 @@ export default function App() {
           questionCount={questions.length}
           role={role}
           candidateName={candidateName}
+          timeLimit={timeLimit}
           onStart={() => setScreen("interview")}
         />
       )}

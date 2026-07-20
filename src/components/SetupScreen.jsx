@@ -322,11 +322,15 @@ export default function SetupScreen() {
       )}
 
       <button
-        className="btn btn-primary btn-complete"
-        disabled={!canComplete}
+        className={`btn btn-complete ${generatedLink ? "btn-completed" : "btn-primary"}`}
+        disabled={!canComplete || !!generatedLink}
         onClick={handleComplete}
       >
-        Complete setup
+        {generatedLink ? (
+          <><span className="btn-completed-check">✓</span> Completed</>
+        ) : (
+          "Complete setup"
+        )}
       </button>
 
       {generatedLink && (

@@ -41,17 +41,27 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-text-primary: #f0f0f0;
-    --color-text-secondary: #c0c0c0;
-    --color-text-muted: #808080;
-    --color-border: #333333;
-    --color-bg-card: #1a1a1a;
-    --color-bg-muted: #111111;
-    --color-bg-page: #0d0d0d;
-    --color-success-bg: #052e16;
-    --color-warning-bg: #451a03;
-    --color-danger-bg: #450a0a;
-    --color-info-bg: #0d1a3a;
+    /* Lighter blue so accents/links/titles are readable on dark */
+    --color-primary: #6b8afe;
+    --color-primary-hover: #89a3ff;
+    --color-info: #6b8afe;
+
+    --color-text-primary: #e8eaed;
+    --color-text-secondary: #b4b9c2;
+    --color-text-muted: #8a909b;
+    --color-border: #2c313b;
+
+    /* Softer, slightly blue-tinted surfaces instead of flat black */
+    --color-bg-card: #1b1e24;
+    --color-bg-muted: #15181e;
+    --color-bg-page: #0f1116;
+
+    /* Keep the vivid status colors (readable as text on dark, and the score
+       gauges blend them into fixed dark stops), just deepen their panel tints */
+    --color-success-bg: #0e2a1a;
+    --color-warning-bg: #2e2306;
+    --color-danger-bg: #2e1113;
+    --color-info-bg: #16233f;
   }
 }
 
@@ -462,6 +472,21 @@ body {
   width: 100%;
   font-size: 16px;
   padding: 14px;
+}
+
+.btn-complete.btn-completed,
+.btn-complete.btn-completed:disabled {
+  background: var(--color-bg-muted);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  opacity: 1;
+  cursor: default;
+}
+
+.btn-completed-check {
+  color: var(--color-success);
+  font-weight: 700;
+  margin-right: 4px;
 }
 
 .stepper-static {
